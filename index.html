@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ICSTIC — The Interact Club of St. Thomas' Catholic International College</title>
+  <meta name="description" content="Welcome to ICSTIC. Members area, admin tools, calendar, Best Interactor, and family photos — all in one lightweight file." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    html { scroll-behavior:smooth }
+    .aurora {
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(16,185,129,0.35), transparent 60%),
+        radial-gradient(1000px 500px at 90% 20%, rgba(59,130,246,0.30), transparent 60%),
+        radial-gradient(1000px 700px at 30% 90%, rgba(234,179,8,0.25), transparent 60%),
+        linear-gradient(180deg, #0b1220 0%, #0e1324 40%, #0f172a 100%);
+    }
+    .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.12) }
+    .btn { display:inline-flex; align-items:center; justify-content:center; border-radius:0.75rem; padding:0.5rem 1rem; font-weight:500; box-shadow:0 1px 2px rgba(0,0,0,.2); transition:all .2s; }
+    .btn-primary { background:#10b981; color:white; } .btn-primary:hover { background:#059669; }
+    .btn-rose { background:#f43f5e; color:white; } .btn-rose:hover { background:#e11d48; }
+    .btn-ghost { background:rgba(255,255,255,.1); color:white; } .btn-ghost:hover { background:rgba(255,255,255,.2); }
+    .tag { font-size:.75rem; padding:.125rem .5rem; border-radius:999px; background:rgba(255,255,255,.1); color:white }
+    .grid-cards { display:grid; gap:1rem; grid-template-columns:repeat(1,minmax(0,1fr)) }
+    @media(min-width:640px){ .grid-cards{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
+    @media(min-width:1024px){ .grid-cards{ grid-template-columns:repeat(3,minmax(0,1fr)) } }
+    dialog::backdrop { background: rgba(0,0,0,.6) }
+  </style>
+</head>
+<body class="aurora min-h-screen text-white">
+
+  <header class="sticky top-0 z-50 glass">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex items-center justify-between py-3">
+        <div class="flex items-center gap-3">
+          <img id="clubLogo" alt="ICSTIC logo" class="h-10 w-10 rounded-full ring-2 ring-white/20 object-cover"/>
+          <div>
+            <h1 class="text-xl font-bold">ICSTIC</h1>
+            <p class="text-xs text-white/70">The Interact Club of St. Thomas' Catholic International College</p>
+          </div>
+        </div>
+        <nav class="hidden md:flex items-center gap-6 text-sm">
+          <a href="#home" class="hover:text-emerald-300">Home</a>
+          <a href="#member" class="hover:text-emerald-300">Members</a>
+          <a href="#admin" class="hover:text-emerald-300">Admin</a>
+          <a href="#calendar" class="hover:text-emerald-300">Calendar</a>
+          <a href="#best" class="hover:text-emerald-300">Best Interactor</a>
+          <a href="#photos" class="hover:text-emerald-300">Family Photos</a>
+          <a href="#about" class="hover:text-emerald-300">About</a>
+        </nav>
+        <button class="md:hidden btn btn-ghost" id="openNav"><i data-lucide="menu" class="w-5 h-5"></i></button>
+      </div>
+      <div id="mobileNav" class="hidden border-t border-white/10 pb-3 md:hidden">
+        <div class="grid grid-cols-2 gap-2 pt-3 text-sm">
+          <a href="#home" class="btn btn-ghost">Home</a>
+          <a href="#member" class="btn btn-ghost">Members</a>
+          <a href="#admin" class="btn btn-ghost">Admin</</a>
+          <a href="#calendar" class="btn btn-ghost">Calendar</a>
+          <a href="#best" class="btn btn-ghost">Best Interactor</a>
+          <a href="#photos" class="btn btn-ghost">Family Photos</a>
+          <a href="#about" class="btn btn-ghost col-span-2">About</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="home" class="max-w-7xl mx-auto px-4 py-10">
+    <div class="grid md:grid-cols-2 gap-8 items-center">
+      <div class="space-y-5">
+        <h2 class="text-3xl md:text-4xl font-extrabold">Welcome to ICSTIC</h2>
+        <p class="text-white/80 leading-relaxed">
+          Welcome to the official page of our Interact club. Here you will find everything you need to know about being a member of our Interact Club and the role you play in this Family.
+        </p>
+        <div class="flex gap-3">
+          <a href="#member" class="btn btn-primary">Member Login</a>
+          <a href="#admin" class="btn btn-rose">Admin Area</a>
+        </div>
+      </div>
+      <div class="glass rounded-3xl p-6">
+        <div class="flex items-center gap-4">
+          <img id="heroLogo" class="h-24 w-24 rounded-2xl ring-2 ring-white/10 object-cover" alt="ICSTIC logo"/>
+          <div>
+            <h3 class="text-2xl font-semibold">ICSTIC</h3>
+            <div class="text-sm text-white/70">The Interact Club of St. Thomas' Catholic International College</div>
+            <div class="mt-3"><span class="tag">Open to all members</span> <span class="tag">No login account needed</span></div>
+          </div>
+        </div>
+        <div class="mt-6 text-sm text-white/70">Tip: Admins can set the logo in <a class="underline" href="#admin">Admin &gt; Settings</a>.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="member" class="max-w-7xl mx-auto px-4 py-10">
+    <h2 class="text-2xl font-bold mb-4">Members Area</h2>
+    <div id="memberGate" class="glass rounded-2xl p-6">
+      <div class="grid md:grid-cols-2 gap-6 items-end">
+        <div>
+          <label class="block text-sm mb-1">Your Name</label>
+          <input id="memberName" class="w-full rounded-xl bg-white/10 border border-white/20 p-3 outline-none" placeholder="e.g., A. Perera" />
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Member Password</label>
+          <input id="memberPass" type="password" class="w-full rounded-xl bg-white/10 border border-white/20 p-3 outline-none" placeholder="Enter 02" />
+        </div>
+      </div>
+      <div class="mt-4 flex gap-3">
+        <button id="memberEnter" class="btn btn-primary">Enter</button>
+        <div class="text-sm text-white/70">Password is <b>02</b>.</div>
+      </div>
+    </div>
+
+    <div id="memberPanel" class="hidden mt-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-xl font-semibold">This Week's Tasks — <span id="memberWeek"></span></h3>
+        <div class="text-sm text-white/70">Logged in as <span id="memberWho" class="font-semibold"></span></div>
+      </div>
+      <div id="memberTasks" class="grid-cards"></div>
+      <div class="mt-6 flex items-center gap-3">
+        <button id="memberSubmit" class="btn btn-primary">Submit</button>
+        <span id="memberMsg" class="text-sm"></span>
+      </div>
+
+      <div class="mt-8 glass rounded-2xl p-4">
+        <div class="flex items-center justify-between mb-2">
+          <h4 class="font-semibold">Ask Admin (Q&A)</h4>
+          <span class="text-xs text-white/60">Admins reply here</span>
+        </div>
+        <div id="memberChat" class="space-y-3 max-h-72 overflow-auto pr-1"></div>
+        <div class="mt-3 flex gap-2">
+          <input id="memberQuestion" class="flex-1 rounded-xl bg-white/10 border border-white/20 p-3 outline-none" placeholder="Type your question..."/>
+          <button id="sendQuestion" class="btn btn-ghost">Send</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="admin" class="max-w-7xl mx-auto px-4 py-10">
+    <h2 class="text-2xl font-bold mb-4">Admin Area</h2>
+    <div id="adminGate" class="glass rounded-2xl p-6">
+      <div class="grid md:grid-cols-2 gap-6 items-end">
+        <div>
+          <label class="block text-sm mb-1">Admin Name</label>
+          <input id="adminName" class="w-full rounded-xl bg-white/10 border border-white/20 p-3 outline-none" placeholder="e.g., Ms. Silva" />
+        </div>
+        <div>
+          <label class="block text-sm mb-1">Admin Password</label>
+          <input id="adminPass" type="password" class="w-full rounded-xl bg-white/10 border border-white/20 p-3 outline-none" placeholder="Enter Admin123" />
+        </div>
+      </div>
+      <div class="mt-4 flex gap-3">
+        <button id="adminEnter" class="btn btn-rose">Enter Admin</button>
+        <div class="text-sm text-white/70">Password is <b>Admin123</b>.</div>
+      </div>
+    </div>
+
+    <div id="adminPanel" class="hidden mt-6 space-y-8">
+      <div class="glass rounded-2xl p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold">Tasks by Member — Week <span id="adminWeek"></span></h3>
+          <button id="rollWeek" class="btn btn-ghost" title="Run weekly check (removes members failing 3 weeks)">Weekly Check</button>
+        </div>
+        <div class="grid md:grid-cols-3 gap-3">
+          <input id="newMember" class="rounded-xl bg-white/10 border border-white/20 p-3" placeholder="Add/Select member name" />
+          <input id="newTask" class="rounded-xl bg-white/10 border border-white/20 p-3" placeholder="Task description" />
+          <button id="addTask" class="btn btn-primary">Add Task</button>
+        </div>
+        <div class="mt-4 grid md:grid-cols-2 gap-6" id="adminMembers"></div>
+      </div>
+
+      <div class="glass rounded-2xl p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-xl font-semibold">Member Questions</h3>
+          <span class="text-sm text-white/60">Reply as admin</span>
+        </div>
+        <div id="adminChat" class="space-y-4"></div>
+      </div>
+
+      <div class="glass rounded-2xl p-6">
+        <h3 class="text-xl font-semibold mb-3">Site Settings</h3>
+        <div class="flex flex-wrap items-center gap-4">
+          <label class="text-sm">Upload Logo <input id="logoUploader" type="file" accept="image/*" class="ml-2"/></label>
+          <button id="exportData" class="btn btn-ghost">Export Data</button>
+          <input id="importFile" type="file" accept="application/json" class="hidden"/>
+          <button id="importDataBtn" class="btn btn-ghost">Import Data</button>
+          <button id="resetAll" class="btn btn-rose">Reset Everything</button>
+        </div>
+        <p class="text-xs text-white/60 mt-2">All data is stored locally in the browser using LocalStorage. Use Export/Import to move between devices.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="calendar" class="max-w-7xl mx-auto px-4 py-10">
+    <h2 class="text-2xl font-bold mb-4">Projects & Calendar</h2>
+    <div class="glass rounded-2xl p-6">
+      <div class="grid md:grid-cols-[2fr,3fr] gap-6">
+        <div>
+          <label class="block text-sm mb-1">Add Event</label>
+          <div class="grid gap-2">
+            <input id="calTitle" class="rounded-xl bg-white/10 border border-white/20 p-3" placeholder="Event title"/>
+            <input id="calDate" type="date" class="rounded-xl bg-white/10 border border-white/20 p-3"/>
+            <input id="calDesc" class="rounded-xl bg-white/10 border border-white/20 p-3" placeholder="Description (optional)"/>
+            <button id="addEvent" class="btn btn-primary w-max">Add</button>
+          </div>
+        </div>
+        <div>
+          <div id="calendarList" class="space-y-2 max-h-80 overflow-auto"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="best" class="max-w-7xl mx-auto px-4 py-10">
+    <h2 class="text-2xl font-bold mb-4">Best Interactor</h2>
+    <div class="glass rounded-2xl p-6">
+      <p class="text-sm text-white/80 mb-4">Week 1–3: Nominate up to three interactors (with photos). Week 4: Select the winner.</p>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="font-semibold mb-2">Admin Controls</h3>
+          <div class="grid gap-2">
+            <input id="nomName" class="rounded-xl bg-white/10 border border-white/20 p-3" placeholder="Interactor name"/>
+            <input id="nomClass" class="rounded-xl bg-white/10 border border-white/20 p-3" placeholder="Class/Role (optional)"/>
+            <label class="text-sm">Photo <input id="nomPhoto" type="file" accept="image/*" class="ml-2"/></label>
+            <button id="addNominee" class="btn btn-primary w-max">Add Nominee</button>
+            <button id="clearNominees" class="btn btn-ghost w-max">Clear Nominees</button>
+            <div class="border-t border-white/10 pt-3">
+              <label class="block text-sm mb-1">Pick Winner (Week 4)</label>
+              <select id="winnerSelect" class="rounded-xl bg-white/10 border border-white/20 p-3"></select>
+              <button id="setWinner" class="btn btn-rose mt-2">Set Winner</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-semibold mb-2">Public View</h3>
+          <div id="bestPublic" class="grid-cards"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="photos" class="max-w-7xl mx-auto px-4 py-10">
+    <h2 class="text-2xl font-bold mb-4">Family Photos</h2>
+    <div class="glass rounded-2xl p-6">
+      <div class="mb-3 flex flex-wrap items-center gap-3">
+        <label class="text-sm">Upload Photos (Admin) <input id="galUpload" type="file" accept="image/*" multiple class="ml-2"/></label>
+        <button id="clearGallery" class="btn btn-ghost">Clear Gallery</button>
+      </div>
+      <div id="gallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
+    </div>
+  </section>
+
+  <section id="about" class="max-w-7xl mx-auto px-4 py-10">
+    <div class="glass rounded-2xl p-6">
+      <h2 class="text-2xl font-bold mb-2">About ICSTIC</h2>
+      <p class="text-white/80">The Interact Club of St. Thomas' Catholic International College (ICSTIC) — simple site with members/admin tools, calendar, monthly awards, and gallery.</p>
+    </div>
+  </section>
+
+  <dialog id="toast" class="rounded-xl p-0 bg-white/95 text-slate-900 min-w-[280px]">
+    <div class="p-4 text-center space-y-2">
+      <div id="toastMsg" class="font-semibold"></div>
+      <button onclick="document.getElementById('toast').close()" class="btn">Close</button>
+    </div>
+  </dialog>
+
+  <script>
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const store = {
+      get(key, def){ try{ return JSON.parse(localStorage.getItem(key)) ?? def }catch(e){ return def } },
+      set(key, val){ localStorage.setItem(key, JSON.stringify(val)); },
+      del(key){ localStorage.removeItem(key); }
+    };
+
+    function isoWeek(d = new Date()){
+      const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+      const dayNum = date.getUTCDay() || 7;
+      date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+      const yearStart = new Date(Date.UTC(date.getUTCFullYear(),0,1));
+      const weekNo = Math.ceil((((date - yearStart) / 86400000) + 1)/7);
+      return { year: date.getUTCFullYear(), week: weekNo };
+    }
+    function weekKey(obj){ return `${obj.year}-W${String(obj.week).padStart(2,'0')}` }
+    function weekOfMonth(dt=new Date()){
+      const d = new Date(dt);
+      const firstDay = new Date(d.getFullYear(), d.getMonth(), 1).getDay();
+      return Math.ceil((d.getDate() + firstDay) / 7);
+    }
+
+    const db = store.get('icstic', {
+      logoDataUrl: null,
+      members: {},
+      tasks: {},
+      chat: [],
+      calendar: [],
+      nominees: {},
+      gallery: []
+    });
+    const save = ()=> store.set('icstic', db);
+
+    function defaultLogo(){
+      return 'data:image/svg+xml;utf8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#22c55e"/></linearGradient></defs><rect width="200" height="200" rx="28" fill="url(#g)"/><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Verdana" font-size="72" fill="white">I</text></svg>`);
+    }
+    function setLogo(u){ $('#clubLogo').src=u||defaultLogo(); $('#heroLogo').src=u||defaultLogo(); }
+    setLogo(db.logoDataUrl);
+
+    $('#openNav').onclick=()=>$('#mobileNav').classList.toggle('hidden');
+
+    const MEMBER_PASSWORD='02'; let currentMember=null;
+    function ensureMember(n){ if(!db.members[n]) db.members[n]={removed:false,fails:0,lastChecked:null} }
+
+    function renderMemberTasks(n){
+      const wk=weekKey(isoWeek()); $('#memberWeek').textContent=wk;
+      const list=(db.tasks[wk]?.[n]??[]);
+      const root=$('#memberTasks'); root.innerHTML='';
+      if(list.length===0){ root.innerHTML='<div class="text-white/80">No tasks yet. Please check back later.</div>'; return; }
+      list.forEach(t=>{
+        const c=document.createElement('div'); c.className='glass rounded-2xl p-4 flex items-start gap-3';
+        c.innerHTML=`<input type="checkbox" ${t.done?'checked':''} class="mt-1 h-5 w-5 shrink-0"/> <div><div class="font-medium">${t.text}</div><div class="text-xs text-white/60">Task ID: ${t.id}</div></div>`;
+        c.querySelector('input').onchange=e=>{ t.done=e.target.checked; save(); };
+        root.appendChild(c);
+      });
+    }
+
+    function evaluateMember(n){
+      const k=weekKey(isoWeek());
+      const tasks=db.tasks[k]?.[n]??[];
+      const all=tasks.length>0&&tasks.every(t=>t.done);
+      const m=$('#memberMsg');
+      if(all){ m.textContent='GREAT JOB , MY FRIEND'; showToast('GREAT JOB , MY FRIEND'); }
+      else   { m.textContent='HOPE YOU DO BETTER NEXT TIME , FRIEND'; showToast('HOPE YOU DO BETTER NEXT TIME , FRIEND'); }
+      const mm=db.members[n];
+      if(!all){ mm.fails=(mm.fails||0)+1 } else { mm.fails=0 }
+      if(mm.fails>=3){ mm.removed=true; showToast(`${n} removed after 3 failed weeks`) }
+      mm.lastChecked=k; save();
+    }
+
+    $('#memberEnter').onclick=()=>{
+      const n=$('#memberName').value.trim();
+      const p=$('#memberPass').value.trim();
+      if(!n) return showToast('Please enter your name');
+      if(p!==MEMBER_PASSWORD) return showToast('Wrong member password');
+      ensureMember(n); save(); currentMember=n;
+      $('#memberWho').textContent=n;
+      $('#memberGate').classList.add('hidden');
+      $('#memberPanel').classList.remove('hidden');
+      renderMemberTasks(n); renderMemberChat();
+    }
+    $('#memberSubmit').onclick=()=>evaluateMember(currentMember);
+
+    function renderMemberChat(){
+      const box=$('#memberChat'); box.innerHTML='';
+      db.chat.filter(m=>!m.replyTo||m.role==='admin'||m.name===currentMember).forEach(m=>{
+        const r=document.createElement('div'); r.className='flex gap-2 items-start';
+        r.innerHTML=`<div class="text-xs mt-1 ${m.role==='admin'?'text-emerald-300':'text-white/70'}">${m.role==='admin'?'Admin':'You'}</div><div class="bg-white/10 rounded-xl px-3 py-2 flex-1">${m.text}</div>`;
+        box.appendChild(r);
+      });
+      box.scrollTop=box.scrollHeight;
+    }
+    $('#sendQuestion').onclick=()=>{
+      if(!currentMember) return;
+      const t=$('#memberQuestion').value.trim(); if(!t) return;
+      db.chat.push({id:crypto.randomUUID(),name:currentMember,role:'member',text:t,ts:Date.now()});
+      $('#memberQuestion').value=''; save(); renderMemberChat(); renderAdminChat();
+    }
+
+    const ADMIN_PASSWORD='Admin123'; let currentAdmin=null;
+
+    function renderAdmin(){
+      $('#adminWeek').textContent=weekKey(isoWeek());
+      const panel=$('#adminMembers'); panel.innerHTML='';
+      const names=Object.keys(db.members).filter(n=>!db.members[n].removed).sort();
+      const wk=weekKey(isoWeek());
+      names.forEach(n=>{
+        const tasks=(db.tasks[wk]?.[n]??[]);
+        const card=document.createElement('div'); card.className='glass rounded-2xl p-4';
+        card.innerHTML=`
+          <div class="flex items-center justify-between mb-2">
+            <div class="font-semibold">${n}</div>
+            <div class="text-xs text-white/60">fails: ${db.members[n].fails||0}</div>
+          </div>
+          <div class="space-y-2" data-list></div>
+          <div class="mt-2 flex gap-2">
+            <button class="btn btn-ghost" data-add>Add Task</button>
+            <button class="btn btn-ghost" data-clear>Clear</button>
+            <button class="btn btn-rose" data-remove>Remove Member</button>
+          </div>`;
+        const list=card.querySelector('[data-list]');
+        tasks.forEach(t=>{
+          const row=document.createElement('div'); row.className='flex items-center gap-2';
+          row.innerHTML=`<input type="checkbox" ${t.done?'checked':''}/> <input class="flex-1 rounded-xl bg-white/10 border border-white/20 p-2" value="${t.text}"/> <button title="delete" class="btn btn-ghost" data-del>✖</button>`;
+          row.querySelector('input[type="checkbox"]').onchange=e=>{ t.done=e.target.checked; save(); };
+          row.querySelector('input:not([type])').onchange=e=>{ t.text=e.target.value; save(); };
+          row.querySelector('[data-del]').onclick=()=>{ const arr=db.tasks[wk][n]; db.tasks[wk][n]=arr.filter(x=>x.id!==t.id); save(); renderAdmin(); };
+          list.appendChild(row);
+        });
+        card.querySelector('[data-add]').onclick=()=>{ addTaskTo(n,$('#newTask').value.trim()||'New Task') };
+        card.querySelector('[data-clear]').onclick=()=>{ if(db.tasks[wk]) db.tasks[wk][n]=[]; save(); renderAdmin(); };
+        card.querySelector('[data-remove]').onclick=()=>{ db.members[n].removed=true; save(); renderAdmin(); };
+        panel.appendChild(card);
+      });
+    }
+
+    function addTaskTo(n,txt){
+      if(!txt) return showToast('Enter a task');
+      const wk=weekKey(isoWeek());
+      db.tasks[wk] ||= {}; db.tasks[wk][n] ||= [];
+      db.tasks[wk][n].push({id:crypto.randomUUID(),text:txt,done:false});
+      save(); renderAdmin(); if(currentMember===n) renderMemberTasks(n);
+    }
+
+    $('#addTask').onclick=()=>{
+      const n=$('#newMember').value.trim(); if(!n) return showToast('Enter member name');
+      ensureMember(n); addTaskTo(n, $('#newTask').value.trim()); $('#newTask').value=''; save();
+    }
+
+    $('#adminEnter').onclick=()=>{
+      const n=$('#adminName').value.trim();
+      const p=$('#adminPass').value.trim();
+      if(!n) return showToast('Enter admin name');
+      if(p!==ADMIN_PASSWORD) return showToast('Wrong admin password');
+      currentAdmin=n; $('#adminGate').classList.add('hidden'); $('#adminPanel').classList.remove('hidden'); renderAdmin(); renderAdminChat();
+    }
+
+    $('#rollWeek').onclick=()=>{
+      const wk=weekKey(isoWeek());
+      for(const n of Object.keys(db.members)){
+        const m=db.members[n]; if(m.removed) continue;
+        const tasks=db.tasks[wk]?.[n]??[];
+        const all=tasks.length>0&&tasks.every(t=>t.done);
+        if(!all){ m.fails=(m.fails||0)+1 } else { m.fails=0 }
+        if(m.fails>=3){ m.removed=true }
+      }
+      save(); showToast('Weekly check complete.');
+    };
+
+    function renderAdminChat(){
+      const box=$('#adminChat'); box.innerHTML='';
+      const threads=db.chat;
+      threads.forEach(m=>{
+        const r=document.createElement('div'); r.className='glass rounded-xl p-3';
+        r.innerHTML=`<div class="text-xs text-white/60 mb-1">From: ${m.role==='member'?m.name:'Admin'}</div><div class="mb-2">${m.text}</div><div class="flex gap-2"><input class="flex-1 rounded-xl bg-white/10 border border-white/20 p-2" placeholder="Reply..."/><button class="btn btn-primary">Reply</button></div>`;
+        r.querySelector('button').onclick=()=>{
+          const t=r.querySelector('input').value.trim(); if(!t) return;
+          db.chat.push({id:crypto.randomUUID(),name:currentAdmin||'Admin',role:'admin',text:t,ts:Date.now(),replyTo:m.id});
+          save(); renderAdminChat(); if(currentMember) renderMemberChat();
+        };
+        box.appendChild(r);
+      });
+    }
+
+    $('#logoUploader').onchange=async e=>{
+      const f=e.target.files[0]; if(!f) return;
+      const r=new FileReader();
+      r.onload=()=>{ db.logoDataUrl=r.result; save(); setLogo(r.result); showToast('Logo updated'); };
+      r.readAsDataURL(f);
+    };
+    $('#exportData').onclick=()=>{
+      const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='icstic-data.json'; a.click();
+    };
+    $('#importDataBtn').onclick=()=>$('#importFile').click();
+    $('#importFile').onchange=async e=>{
+      const f=e.target.files[0]; if(!f) return;
+      const text=await f.text();
+      try{ const json=JSON.parse(text); Object.assign(db,json); save(); location.reload(); }
+      catch{ showToast('Invalid file'); }
+    };
+    $('#resetAll').onclick=()=>{ if(confirm('This will clear all data on this device. Continue?')){ localStorage.removeItem('icstic'); location.reload(); } };
+
+    function renderCalendar(){
+      const list=$('#calendarList'); list.innerHTML='';
+      db.calendar.sort((a,b)=>a.date.localeCompare(b.date));
+      db.calendar.forEach(e=>{
+        const row=document.createElement('div'); row.className='glass rounded-xl p-3 flex items-start justify-between gap-3';
+        row.innerHTML=`<div><div class="font-semibold">${e.title}</div><div class="text-xs text-white/60">${e.date}</div><div class="text-sm">${e.desc||''}</div></div><button class="btn btn-ghost">✖</button>`;
+        row.querySelector('button').onclick=()=>{ db.calendar=db.calendar.filter(x=>x.id!==e.id); save(); renderCalendar(); };
+        list.appendChild(row);
+      });
+    }
+    $('#addEvent').onclick=()=>{
+      const t=$('#calTitle').value.trim();
+      const d=$('#calDate').value;
+      const c=$('#calDesc').value.trim();
+      if(!t||!d) return showToast('Add title and date');
+      db.calendar.push({id:crypto.randomUUID(),title:t,date:d,desc:c}); save(); renderCalendar();
+      $('#calTitle').value=''; $('#calDesc').value='';
+    };
+    renderCalendar();
+
+    function monthKey(d=new Date()){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}` }
+    function currentNomBox(){ db.nominees[monthKey()] ||= {list:[],winnerId:null}; return db.nominees[monthKey()] }
+
+    function renderBest(){
+      const meta=currentNomBox();
+      const sel=$('#winnerSelect'); sel.innerHTML='<option value="">-- choose winner --</option>';
+      meta.list.forEach(n=>{ const o=document.createElement('option'); o.value=n.id; o.textContent=n.name; sel.appendChild(o); });
+      const pub=$('#bestPublic'); pub.innerHTML='';
+      const wom=weekOfMonth();
+      if(meta.winnerId){
+        const w=meta.list.find(x=>x.id===meta.winnerId);
+        const card=document.createElement('div'); card.className='glass rounded-2xl p-4 text-center col-span-2';
+        card.innerHTML=`<div class="text-sm text-white/60 mb-1">Best Interactor of the Month</div><img src="${w.photo||defaultLogo()}" class="h-40 w-40 object-cover rounded-2xl mx-auto ring-2 ring-white/10"/><div class="mt-2 text-xl font-bold">${w.name}</div><div class="text-sm text-white/70">${w.klass||''}</div>`;
+        pub.appendChild(card);
+      }else if(wom<=3){
+        meta.list.slice(0,3).forEach(n=>{
+          const card=document.createElement('div'); card.className='glass rounded-2xl p-4 text-center';
+          card.innerHTML=`<img src="${n.photo||defaultLogo()}" class="h-40 w-40 object-cover rounded-2xl mx-auto ring-2 ring-white/10"/><div class="mt-2 font-semibold">${n.name}</div><div class="text-sm text-white/60">${n.klass||''}</div>`;
+          pub.appendChild(card);
+        });
+        if(meta.list.length===0){ pub.innerHTML='<div class="text-white/80">No nominees yet.</div>'; }
+      }else{
+        pub.innerHTML='<div class="text-white/80">Week 4: Please pick a winner from the Admin Controls.</div>';
+      }
+    }
+    $('#addNominee').onclick=async()=>{
+      const n=$('#nomName').value.trim(); if(!n) return showToast('Enter a name');
+      const k=$('#nomClass').value.trim();
+      const f=$('#nomPhoto').files[0]; let photo=null;
+      if(f){
+        const r=new FileReader();
+        r.onload=()=>{ photo=r.result; const meta=currentNomBox(); if(meta.list.length>=3) return showToast('Already have 3 nominees'); meta.list.push({id:crypto.randomUUID(),name:n,klass:k,photo}); save(); $('#nomName').value=''; $('#nomClass').value=''; $('#nomPhoto').value=''; renderBest(); };
+        r.readAsDataURL(f);
+      }else{
+        const meta=currentNomBox(); if(meta.list.length>=3) return showToast('Already have 3 nominees');
+        meta.list.push({id:crypto.randomUUID(),name:n,klass:k,photo}); save(); $('#nomName').value=''; $('#nomClass').value=''; renderBest();
+      }
+    };
+    $('#clearNominees').onclick=()=>{ const meta=currentNomBox(); meta.list=[]; meta.winnerId=null; save(); renderBest(); }
+    $('#setWinner').onclick=()=>{ const id=$('#winnerSelect').value; if(!id) return showToast('Choose a winner'); const meta=currentNomBox(); meta.winnerId=id; save(); renderBest(); showToast('Winner set'); };
+    renderBest();
+
+    function renderGallery(){
+      const g=$('#gallery'); g.innerHTML='';
+      db.gallery.forEach((src,i)=>{
+        const fig=document.createElement('figure'); fig.className='relative';
+        fig.innerHTML=`<img src="${src}" class="w-full h-32 object-cover rounded-xl ring-2 ring-white/10"/><button class="btn btn-ghost absolute top-1 right-1">✖</button>`;
+        fig.querySelector('button').onclick=()=>{ db.gallery.splice(i,1); save(); renderGallery(); };
+        g.appendChild(fig);
+      });
+    }
+    $('#galUpload').onchange=async e=>{
+      const files=Array.from(e.target.files); if(files.length===0) return;
+      for(const f of files){ await new Promise(res=>{ const r=new FileReader(); r.onload=()=>{ db.gallery.push(r.result); res(); }; r.readAsDataURL(f); }); }
+      save(); renderGallery();
+    };
+    $('#clearGallery').onclick=()=>{ if(confirm('Clear all photos?')){ db.gallery=[]; save(); renderGallery(); } };
+    renderGallery();
+
+    function showToast(msg){ $('#toastMsg').textContent=msg; document.getElementById('toast').showModal(); }
+
+    window.icstic={db,save};
+    document.addEventListener('DOMContentLoaded', ()=>{ $('#memberWeek').textContent=weekKey(isoWeek()); if(window.lucide) lucide.createIcons(); });
+  </script>
+</body>
+</html>
